@@ -5,8 +5,8 @@ import { Label } from "./components/ui/label";
 import { Button } from "./components/ui/button";
 import { Clock, Timer } from "lucide-react";
 import { calculateTimeInfo } from "./lib/utils";
-import { TimeUnit } from "./components/timeunit";
-import { PositiveAspectCard } from "./components/positivecard";
+import { TimeUnit } from "./components/TimeUnit";
+import { PositiveAspectCard } from "./components/PositiveCard";
 
 const LifeCountdown = () => {
   const [timeInfo, setTimeInfo] = useState({
