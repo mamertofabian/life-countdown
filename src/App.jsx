@@ -4,6 +4,8 @@ import { Input } from "./components/ui/input";
 import { Label } from "./components/ui/label";
 import { Button } from "./components/ui/button";
 import { Clock, Timer } from "lucide-react";
+import { calculateTimeInfo } from "./lib/utils";
+import { TimeUnit } from "./components/timeunit";
 
 const LifeCountdown = () => {
   const [timeInfo, setTimeInfo] = useState({
@@ -21,142 +23,6 @@ const LifeCountdown = () => {
   const [timerSeconds, setTimerSeconds] = useState(0);
   const [isTimerRunning, setIsTimerRunning] = useState(false);
   const [timeWasterHours, setTimeWasterHours] = useState(0);
-
-  const calculateTimeInfo = (dob, expectancy, wastedHours) => {
-    const birthDate = new Date(dob);
-    const now = new Date();
-    const endDate = new Date(
-      birthDate.getFullYear() + parseInt(expectancy),
-      birthDate.getMonth(),
-      birthDate.getDate()
-    );
-
-    if (now >= endDate) {
-      return {
-        timeInfo: {
-          years: {
-            remaining: 0,
-            remainingWithWaste: 0,
-            total: expectancy,
-            wasted: 0,
-          },
-          months: {
-            remaining: 0,
-            remainingWithWaste: 0,
-            total: expectancy * 12,
-            wasted: 0,
-          },
-          weeks: {
-            remaining: 0,
-            remainingWithWaste: 0,
-            total: expectancy * 52,
-            wasted: 0,
-          },
-          days: {
-            remaining: 0,
-            remainingWithWaste: 0,
-            total: expectancy * 365,
-            wasted: 0,
-          },
-          hours: {
-            remaining: 0,
-            remainingWithWaste: 0,
-            total: expectancy * 365 * 24,
-            wasted: 0,
-          },
-          minutes: {
-            remaining: 0,
-            remainingWithWaste: 0,
-            total: expectancy * 365 * 24 * 60,
-            wasted: 0,
-          },
-          seconds: {
-            remaining: 0,
-            remainingWithWaste: 0,
-            total: expectancy * 365 * 24 * 60 * 60,
-            wasted: 0,
-          },
-        },
-        age: expectancy,
-      };
-    }
-
-    const timeDiff = endDate - now;
-    const totalSeconds = Math.floor(timeDiff / 1000);
-    const totalMinutes = Math.floor(totalSeconds / 60);
-    const totalHours = Math.floor(totalMinutes / 60);
-    const totalDays = Math.floor(totalHours / 24);
-    const totalWeeks = Math.floor(totalDays / 7);
-    const totalMonths = Math.floor(totalDays / 30.44);
-    const years = Math.floor(totalDays / 365.25);
-
-    const ageDate = new Date(now - birthDate);
-    const age = Math.abs(ageDate.getUTCFullYear() - 1970);
-
-    const wastedSeconds = wastedHours * 3600 * totalDays;
-    const wastedMinutes = wastedHours * 60 * totalDays;
-    const wastedHoursTotal = wastedHours * totalDays;
-    const wastedDays = (wastedHours * totalDays) / 24;
-    const wastedWeeks = wastedDays / 7;
-    const wastedMonths = wastedDays / 30.44;
-    const wastedYears = wastedDays / 365.25;
-
-    return {
-      timeInfo: {
-        years: {
-          remaining: Math.floor(years),
-          remainingWithWaste: Math.floor(Math.max(0, years - wastedYears)),
-          total: expectancy,
-          wasted: wastedYears,
-        },
-        months: {
-          remaining: Math.floor(totalMonths),
-          remainingWithWaste: Math.floor(
-            Math.max(0, totalMonths - wastedMonths)
-          ),
-          total: expectancy * 12,
-          wasted: wastedMonths,
-        },
-        weeks: {
-          remaining: Math.floor(totalWeeks),
-          remainingWithWaste: Math.floor(Math.max(0, totalWeeks - wastedWeeks)),
-          total: expectancy * 52,
-          wasted: wastedWeeks,
-        },
-        days: {
-          remaining: Math.floor(totalDays),
-          remainingWithWaste: Math.floor(Math.max(0, totalDays - wastedDays)),
-          total: expectancy * 365,
-          wasted: wastedDays,
-        },
-        hours: {
-          remaining: Math.floor(totalHours),
-          remainingWithWaste: Math.floor(
-            Math.max(0, totalHours - wastedHoursTotal)
-          ),
-          total: expectancy * 365 * 24,
-          wasted: wastedHoursTotal,
-        },
-        minutes: {
-          remaining: Math.floor(totalMinutes),
-          remainingWithWaste: Math.floor(
-            Math.max(0, totalMinutes - wastedMinutes)
-          ),
-          total: expectancy * 365 * 24 * 60,
-          wasted: wastedMinutes,
-        },
-        seconds: {
-          remaining: Math.floor(totalSeconds),
-          remainingWithWaste: Math.floor(
-            Math.max(0, totalSeconds - wastedSeconds)
-          ),
-          total: expectancy * 365 * 24 * 60 * 60,
-          wasted: wastedSeconds,
-        },
-      },
-      age,
-    };
-  };
 
   useEffect(() => {
     if (dateOfBirth && lifeExpectancy) {
@@ -212,68 +78,6 @@ const LifeCountdown = () => {
     return `${hours.toString().padStart(2, "0")}:${minutes
       .toString()
       .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
-  };
-
-  const formatNumber = (number) => {
-    return number.toLocaleString(undefined, { maximumFractionDigits: 2 });
-  };
-
-  const getProgressColor = (percentage) => {
-    const hue = ((percentage / 100) * 120).toString(10);
-    return `hsl(${hue}, 100%, 50%)`;
-  };
-
-  const TimeUnit = ({ value, unit, timeWasterHours }) => {
-    const remainingPercentage = (value.remainingWithWaste / value.total) * 100;
-    const progressColor = getProgressColor(remainingPercentage);
-
-    return (
-      <div className="bg-gradient-to-br from-indigo-500 to-purple-600 p-4 rounded-lg shadow-lg text-white transition-all duration-300 hover:scale-105">
-        <div className="flex items-center justify-between mb-3">
-          <Clock className="w-5 h-5" />
-          <span className="text-sm font-medium uppercase">{unit}</span>
-        </div>
-        <div className="space-y-2">
-          <p className="text-2xl font-bold">
-            {formatNumber(value.remaining)} {unit} remaining
-          </p>
-          {value.wasted > 0 && (
-            <div className="text-s text-red-300 mt-2">
-              <p>
-                {formatNumber(timeWasterHours)} hour/day wastage results in:{" "}
-              </p>
-              <p>
-                <span className="font-semibold text-red-400">
-                  {formatNumber(value.wasted)} {unit.toLowerCase()} wasted
-                </span>
-              </p>
-            </div>
-          )}
-          <p className="text-sm font-semibold text-indigo-200 mt-2">
-            Effective remaining {unit.toLowerCase()}:
-          </p>
-          <p className="text-2xl font-bold text-yellow-300">
-            {formatNumber(value.remainingWithWaste)} {unit}
-          </p>
-          <p className="text-xs text-indigo-200 mt-1">
-            of {formatNumber(value.total)} total {unit.toLowerCase()} of life
-            expectancy
-          </p>
-        </div>
-        <div className="w-full bg-indigo-200 rounded-full h-4 mt-3 overflow-hidden">
-          <div
-            className="h-full rounded-full"
-            style={{
-              width: `${remainingPercentage}%`,
-              backgroundColor: progressColor,
-            }}
-          ></div>
-        </div>
-        <p className="text-xs text-center mt-2">
-          {remainingPercentage.toFixed(1)}% remaining
-        </p>
-      </div>
-    );
   };
 
   return (
