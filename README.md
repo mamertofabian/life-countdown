@@ -2,19 +2,15 @@
 
 ## Description
 
-This project is a modern React-based UI component library. It leverages the power of React and Tailwind CSS to provide a set of reusable, customizable UI components for building responsive and interactive web applications.
+Life Countdown is a React-based web application that provides a visual representation of your life in weeks. It leverages the power of React and Tailwind CSS to create an interactive and responsive user interface.
 
 ## Features
 
+- Interactive life countdown visualization
+- Customizable birth date input
+- Responsive design for various screen sizes
 - React-based components
 - Tailwind CSS for utility-first styling
-- Custom UI components including:
-  - Button
-  - Card
-  - Input
-  - Label
-- Responsive design
-- Easy to integrate and customize
 
 ## Project Structure
 
@@ -29,6 +25,7 @@ This project is a modern React-based UI component library. It leverages the powe
 │   └── robots.txt
 ├── src/
 │   ├── components/
+│   │   ├── timeunit.jsx
 │   │   └── ui/
 │   │       ├── button.jsx
 │   │       ├── card.jsx
@@ -61,7 +58,7 @@ This project is a modern React-based UI component library. It leverages the powe
    ```
 2. Navigate to the project directory:
    ```
-   cd react-ui-component-library
+   cd life-countdown
    ```
 3. Install dependencies:
    ```
@@ -76,16 +73,27 @@ This project is a modern React-based UI component library. It leverages the powe
    ```
 2. Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-3. To use the components in your project, import them from the `src/components/ui` directory:
-   ```jsx
-   import { Button, Card, Input, Label } from "./components/ui";
-   ```
-
 ## Available Scripts
 
 - `npm start`: Runs the app in development mode
 - `npm test`: Launches the test runner
 - `npm run build`: Builds the app for production
+- `npm run deploy`: Deploys the app to GitHub Pages
+
+## Deployment
+
+This project is set up to deploy to GitHub Pages. To deploy:
+
+1. Ensure your project's `homepage` field in `package.json` is set correctly:
+   ```json
+   "homepage": "https://mamertofabian.github.io/life-countdown"
+   ```
+2. Run the deploy script:
+   ```
+   npm run deploy
+   ```
+
+This will build the app and push it to the `gh-pages` branch of your GitHub repository.
 
 ## Contributing
 
@@ -104,3 +112,4 @@ This project is open source and available under the [MIT License](LICENSE).
 - [React documentation](https://reactjs.org/)
 - [Tailwind CSS documentation](https://tailwindcss.com/docs)
 - [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started)
+- [GitHub Pages deployment](https://create-react-app.dev/docs/deployment/#github-pages)
