@@ -6,6 +6,7 @@ import { Button } from "./components/ui/button";
 import { Clock, Timer } from "lucide-react";
 import { calculateTimeInfo } from "./lib/utils";
 import { TimeUnit } from "./components/timeunit";
+import { PositiveAspectCard } from "./components/positivecard";
 
 const LifeCountdown = () => {
   const [timeInfo, setTimeInfo] = useState({
@@ -23,6 +24,7 @@ const LifeCountdown = () => {
   const [timerSeconds, setTimerSeconds] = useState(0);
   const [isTimerRunning, setIsTimerRunning] = useState(false);
   const [timeWasterHours, setTimeWasterHours] = useState(0);
+  const [meaningfulActivity, setMeaningfulActivity] = useState("");
 
   useEffect(() => {
     if (dateOfBirth && lifeExpectancy) {
@@ -80,6 +82,10 @@ const LifeCountdown = () => {
       .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
   };
 
+  const handleMeaningfulActivityChange = (e) => {
+    setMeaningfulActivity(e.target.value);
+  };
+
   return (
     <div className="w-full min-h-screen bg-gray-100 flex items-center justify-center p-4">
       <Card className="w-full max-w-5xl mx-auto bg-white shadow-2xl">
@@ -121,6 +127,22 @@ const LifeCountdown = () => {
                 min="1"
                 max="150"
                 className="mt-1 w-full"
+              />
+            </div>
+            <div>
+              <Label
+                htmlFor="meaningfulActivity"
+                className="text-lg font-medium text-gray-700"
+              >
+                Meaningful Activity
+              </Label>
+              <Input
+                type="text"
+                id="meaningfulActivity"
+                value={meaningfulActivity}
+                onChange={handleMeaningfulActivityChange}
+                placeholder="e.g., learning, exercising"
+                className="mt-2 w-full"
               />
             </div>
           </div>
@@ -202,6 +224,14 @@ const LifeCountdown = () => {
                 value={timeInfo.seconds}
                 unit="Seconds"
                 timeWasterHours={timeWasterHours}
+              />
+            </div>
+          )}
+          {dateOfBirth && (
+            <div className="mt-8">
+              <PositiveAspectCard
+                hours={timeWasterHours}
+                meaningfulActivity={meaningfulActivity}
               />
             </div>
           )}
