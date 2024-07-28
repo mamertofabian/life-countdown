@@ -233,7 +233,12 @@ const LifeCountdown = () => {
                 {Object.entries(timeInfo).map(
                   ([unit, value]) =>
                     visibleUnits[unit] && (
-                      <TimeUnit key={unit} value={value} unit={unit} />
+                      <TimeUnit
+                        key={unit}
+                        value={value}
+                        unit={unit}
+                        timeWasterHours={timeWasterHours}
+                      />
                     )
                 )}
               </div>
