@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/life-countdown/static/css/main.0d7aabf4.css",
-    "main.js": "/life-countdown/static/js/main.57841df3.js",
+    "main.css": "/life-countdown/static/css/main.2e4c410d.css",
+    "main.js": "/life-countdown/static/js/main.c14acfdf.js",
     "static/js/453.6831f6a2.chunk.js": "/life-countdown/static/js/453.6831f6a2.chunk.js",
     "index.html": "/life-countdown/index.html",
-    "main.0d7aabf4.css.map": "/life-countdown/static/css/main.0d7aabf4.css.map",
-    "main.57841df3.js.map": "/life-countdown/static/js/main.57841df3.js.map",
+    "main.2e4c410d.css.map": "/life-countdown/static/css/main.2e4c410d.css.map",
+    "main.c14acfdf.js.map": "/life-countdown/static/js/main.c14acfdf.js.map",
     "453.6831f6a2.chunk.js.map": "/life-countdown/static/js/453.6831f6a2.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.0d7aabf4.css",
-    "static/js/main.57841df3.js"
+    "static/css/main.2e4c410d.css",
+    "static/js/main.c14acfdf.js"
   ]
 }
