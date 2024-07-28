@@ -2,7 +2,7 @@
 
 ## Description
 
-Life Countdown is a powerful and insightful React-based web application that provides a unique visual representation of your life in weeks. By leveraging the capabilities of React and the utility-first styling of Tailwind CSS, this app offers an interactive and responsive user interface that encourages users to reflect on the passage of time and make the most of their lives.
+Life Countdown is a powerful and insightful React-based web application that provides a unique visual representation of your life in various unit of time. By leveraging the capabilities of React and the utility-first styling of Tailwind CSS, this app offers an interactive and responsive user interface that encourages users to reflect on the passage of time and make the most of their lives.
 
 ## Features
 
