@@ -3,10 +3,26 @@ import { Card, CardContent, CardHeader, CardTitle } from "./components/ui/card";
 import { Input } from "./components/ui/input";
 import { Label } from "./components/ui/label";
 import { Button } from "./components/ui/button";
-import { Clock, Timer } from "lucide-react";
+import { Clock, EyeIcon, EyeOffIcon, Timer } from "lucide-react";
 import { calculateTimeInfo } from "./lib/utils";
 import { TimeUnit } from "./components/TimeUnit";
 import { PositiveAspectCard } from "./components/PositiveCard";
+
+const TimeUnitToggle = ({ unit, isVisible, onToggle }) => (
+  <Button
+    onClick={() => onToggle(unit)}
+    variant="outline"
+    size="sm"
+    className={`flex items-center space-x-2 ${isVisible ? "bg-blue-100" : ""}`}
+  >
+    {isVisible ? (
+      <EyeIcon className="w-4 h-4" />
+    ) : (
+      <EyeOffIcon className="w-4 h-4" />
+    )}
+    <span>{unit}</span>
+  </Button>
+);
 
 const LifeCountdown = () => {
   const [timeInfo, setTimeInfo] = useState({
@@ -17,6 +33,15 @@ const LifeCountdown = () => {
     hours: { remaining: 0, remainingWithWaste: 0, total: 0, wasted: 0 },
     minutes: { remaining: 0, remainingWithWaste: 0, total: 0, wasted: 0 },
     seconds: { remaining: 0, remainingWithWaste: 0, total: 0, wasted: 0 },
+  });
+  const [visibleUnits, setVisibleUnits] = useState({
+    years: true,
+    months: true,
+    weeks: false,
+    days: false,
+    hours: false,
+    minutes: false,
+    seconds: false,
   });
   const [currentAge, setCurrentAge] = useState(0);
   const [dateOfBirth, setDateOfBirth] = useState("");
@@ -51,6 +76,10 @@ const LifeCountdown = () => {
     }
     return () => clearInterval(interval);
   }, [isTimerRunning]);
+
+  const toggleTimeUnit = (unit) => {
+    setVisibleUnits((prev) => ({ ...prev, [unit]: !prev[unit] }));
+  };
 
   const handleDateChange = (e) => {
     setDateOfBirth(e.target.value);
@@ -189,51 +218,32 @@ const LifeCountdown = () => {
             />
           </div>
           {dateOfBirth && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-2 gap-6">
-              <TimeUnit
-                value={timeInfo.years}
-                unit="Years"
-                timeWasterHours={timeWasterHours}
-              />
-              <TimeUnit
-                value={timeInfo.months}
-                unit="Months"
-                timeWasterHours={timeWasterHours}
-              />
-              <TimeUnit
-                value={timeInfo.weeks}
-                unit="Weeks"
-                timeWasterHours={timeWasterHours}
-              />
-              <TimeUnit
-                value={timeInfo.days}
-                unit="Days"
-                timeWasterHours={timeWasterHours}
-              />
-              <TimeUnit
-                value={timeInfo.hours}
-                unit="Hours"
-                timeWasterHours={timeWasterHours}
-              />
-              <TimeUnit
-                value={timeInfo.minutes}
-                unit="Minutes"
-                timeWasterHours={timeWasterHours}
-              />
-              <TimeUnit
-                value={timeInfo.seconds}
-                unit="Seconds"
-                timeWasterHours={timeWasterHours}
-              />
-            </div>
-          )}
-          {dateOfBirth && (
-            <div className="mt-8">
-              <PositiveAspectCard
-                hours={timeWasterHours}
-                meaningfulActivity={meaningfulActivity}
-              />
-            </div>
+            <>
+              <div className="flex flex-wrap gap-2 mb-4">
+                {Object.entries(visibleUnits).map(([unit, isVisible]) => (
+                  <TimeUnitToggle
+                    key={unit}
+                    unit={unit}
+                    isVisible={isVisible}
+                    onToggle={toggleTimeUnit}
+                  />
+                ))}
+              </div>
+              <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+                {Object.entries(timeInfo).map(
+                  ([unit, value]) =>
+                    visibleUnits[unit] && (
+                      <TimeUnit key={unit} value={value} unit={unit} />
+                    )
+                )}
+              </div>
+              <div className="mt-8">
+                <PositiveAspectCard
+                  hours={timeWasterHours}
+                  meaningfulActivity={meaningfulActivity}
+                />
+              </div>
+            </>
           )}
         </CardContent>
       </Card>

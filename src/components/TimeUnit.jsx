@@ -1,6 +1,7 @@
 import { Clock } from "lucide-react";
 
 const formatNumber = (number) => {
+  if (!number) return 0;
   return number.toLocaleString(undefined, { maximumFractionDigits: 1 });
 };
 
